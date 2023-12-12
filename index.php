@@ -313,3 +313,9 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+	// Respond to preflights
+	header('HTTP/1.1 200 OK');
+	exit();
+}
