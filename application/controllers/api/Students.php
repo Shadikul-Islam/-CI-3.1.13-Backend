@@ -1,7 +1,7 @@
 <?php
 require APPPATH."libraries/REST_Controller.php";
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST,DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 class Students extends REST_Controller{
@@ -23,15 +23,34 @@ class Students extends REST_Controller{
         echo $message;
         // echo '<pre>';print_r($_POST);exit;
     }
+    public function index_get(){
+        // echo "This is Get Method";
+        $result = $this->Students_mdl->get_students_info();
+        if(!empty($result)){
+            $response = array(
+                'status' => true ,
+                'results'=>$result
+                );
+                $this->response($response,200);
+        }
+        else{
+            $response = array('status'=>false,'message'=>'Data Not Found');
+            $this->response($response,404);
+        }
+    }
     public function index_put(){
         echo "This is Put Method";
     }
-    public function index_delete(){
-        echo "This is Delete Method";
+
+    public function index_delete($studentId){
+        
+        $result=$this->Students_mdl->delete($studentId);
+        if($result)
+            echo "Deleted";
+        else
+            echo "Student ID Not Found";
     }
-    public function index_get(){
-        echo "This is Get Method";
-    }
+
 
 }
 
