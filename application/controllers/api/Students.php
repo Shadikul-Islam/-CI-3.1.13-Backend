@@ -1,7 +1,7 @@
 <?php
 require APPPATH."libraries/REST_Controller.php";
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST,DELETE, OPTIONS");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 class Students extends REST_Controller{
@@ -38,8 +38,15 @@ class Students extends REST_Controller{
             $this->response($response,404);
         }
     }
-    public function index_put(){
+    public function index_put($studentId){
         echo "This is Put Method";
+        $input_data = json_decode(file_get_contents("php://input"), true);
+        $updatedData = $input_data;
+        $result = $this->Students_mdl->update($studentId, $updatedData);
+        if($result==true)
+            echo "Updated";
+        else
+            echo "Student ID Not Found";
     }
 
     public function index_delete($studentId){

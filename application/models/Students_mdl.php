@@ -25,9 +25,9 @@ class Students_mdl extends CI_Model{
         return $data;
     }
 
-    public function delete($id)
+    public function delete($studentId)
     {
-        $sql="DELETE FROM `tbl_students` WHERE `studentId` = $id";
+        $sql="DELETE FROM `tbl_students` WHERE `studentId` = $studentId";
         $query= $this->db->query($sql);
         // echo $this->db->last_query();die;
         if($this->db->affected_rows() > 0)
@@ -37,6 +37,21 @@ class Students_mdl extends CI_Model{
             return false;
         }
 
+    }
+
+    public function update($studentId, $updatedData)
+    {
+        $this->db->where('studentId', $studentId);
+        $this->db->update('tbl_students', $updatedData);
+        echo $this->db->last_query();die;
+        if($this->db->affected_rows() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
